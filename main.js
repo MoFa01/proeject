@@ -126,7 +126,24 @@ const authorize = (roles) => {
   };
 };
 
-// User Registration
+
+async function deleteAllDocuments() {
+  try {
+    await User.deleteMany({});
+    await Course.deleteMany({});
+    await Enrollment.deleteMany({});
+    console.log('All documents in User, Course, and Enrollment collections have been deleted.');
+  } catch (error) {
+    console.error('Error deleting documents:', error);
+  }
+}
+
+// Endpoint to trigger document deletion
+app.delete('/delete-documents', async (req, res) => {
+  await deleteAllDocuments();
+  res.send('All documents have been deleted from User, Course, and Enrollment collections.');
+});
+
 app.post('/register', async (req, res) => {
   try {
     const { username, email, password, role, firstName, lastName } = req.body;
@@ -166,7 +183,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// User Login
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -400,6 +416,82 @@ app.delete('/admin/users/:userId',
     }
   }
 );
+
+//================================================================
+//================================================================
+app.get('/AllcoursesEn',authenticateUser,authorize(['student']) ,async (req, res) => {
+  try {
+    // Assuming the student ID is passed as a token or part of the session
+    const studentId = req.user._id; // Replace with actual student ID retrieval logic
+
+    // Fetch all courses
+    const courses = await Course.find();
+
+    // Fetch enrollments for the student
+    const enrollments = await Enrollment.find({ student: studentId }).populate('course');
+
+    // Map enrollments to get course IDs the student is enrolled in
+    const enrolledCourseIds = enrollments.map(enrollment => enrollment.course._id.toString());
+
+    // Add enrollment status to each course
+    const coursesWithEnrollmentStatus = courses.map(course => {
+      return {
+        ...course.toObject(),
+        enrolled: enrolledCourseIds.includes(course._id.toString())
+      };
+    });
+
+    // Send the response with the courses and enrollment status
+    res.status(200).json(coursesWithEnrollmentStatus);
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+    res.status(500).json({ message: 'An error occurred while fetching courses.' });
+  }
+});
+
+app.get('/courses/:courseId/details', authenticateUser,authorize(['student']),async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const studentId = req.user._id; // Replace with actual student ID retrieval logic
+
+    // Fetch the course
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    // Fetch the student's enrollment in the course
+    const enrollment = await Enrollment.findOne({
+      student: studentId,
+      course: courseId
+    });
+
+    if (!enrollment) {
+      return res.status(403).json({ message: 'You are not enrolled in this course' });
+    }
+
+    // Mark assignments as "done" if the student has submitted them
+    const assignmentsWithStatus = course.assignments.map(assignment => {
+      const isDone = enrollment.grades.some(grade =>
+        grade.assignmentId.toString() === assignment._id.toString()
+      );
+      return {
+        ...assignment.toObject(),
+        done: isDone
+      };
+    });
+
+    // Send the response with materials and assignments
+    res.status(200).json({
+      materials: course.materials,
+      assignments: assignmentsWithStatus
+    });
+  } catch (error) {
+    console.error('Error fetching course details:', error);
+    res.status(500).json({ message: 'An error occurred while fetching course details.' });
+  }
+});
 
 // Start Server
 app.listen(PORT, () => {
