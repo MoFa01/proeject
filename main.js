@@ -8,8 +8,11 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URL = "mongodb+srv://GP:gp12345@cluster0.a4hua.mongodb.net/";
-const JWT_SECRET = 'your_jwt_secret_key_here'; // Replace with a secure secret key
+const JWT_SECRET = 'key'; // Replace with a secure secret key
 
+
+const cors = require('cors');
+app.use(cors());
 // Middleware
 app.use(express.json());
 
@@ -30,11 +33,6 @@ const UserSchema = new mongoose.Schema({
     type: String, 
     enum: ['student', 'instructor', 'admin'], 
     required: true 
-  },
-  profile: {
-    firstName: String,
-    lastName: String,
-    profilePicture: String
   }
 });
 
@@ -150,8 +148,7 @@ app.post('/register', async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      role,
-      profile: { firstName, lastName }
+      role
     });
 
     await user.save();
@@ -160,7 +157,7 @@ app.post('/register', async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, role: user.role }, 
       JWT_SECRET, 
-      { expiresIn: '500h' }
+      { expiresIn: '10000h' }
     );
 
     res.status(201).send({ user, token });
@@ -188,7 +185,7 @@ app.post('/login', async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, role: user.role }, 
       JWT_SECRET, 
-      { expiresIn: '500h' }
+      { expiresIn: '10000h' }
     );
 
     res.send({ user, token });
