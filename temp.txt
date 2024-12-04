@@ -1,0 +1,1 @@
+const MONGODB_URL = "mongodb+srv://GP:gp12345@cluster0.a4hua.mongodb.net/";

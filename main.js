@@ -1,0 +1,412 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const MONGODB_URL = "mongodb+srv://GP:gp12345@cluster0.a4hua.mongodb.net/";
+const JWT_SECRET = 'your_jwt_secret_key_here'; // Replace with a secure secret key
+
+// Middleware
+app.use(express.json());
+
+// MongoDB Connection
+mongoose.connect(MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected successfully'))
+.catch((err) => console.log('MongoDB connection error:', err));
+
+// User Schema (covers students, instructors, administrators)
+const UserSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { 
+    type: String, 
+    enum: ['student', 'instructor', 'admin'], 
+    required: true 
+  },
+  profile: {
+    firstName: String,
+    lastName: String,
+    profilePicture: String
+  }
+});
+
+// Course Schema
+const CourseSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  instructor: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User' 
+  },
+  materials: [{
+    type: { type: String, enum: ['lecture', 'reading', 'multimedia'] },
+    content: { type: String, required: true }
+  }],
+  assignments: [{
+    title: String,
+    description: String,
+    dueDate: Date,
+    maxScore: Number
+  }]
+});
+
+// Enrollment Schema
+const EnrollmentSchema = new mongoose.Schema({
+  student: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User',
+    required: true
+  },
+  course: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Course',
+    required: true
+  },
+  progress: { type: Number, default: 0 },
+  grades: [{
+    assignmentId: mongoose.Schema.Types.ObjectId,
+    score: Number,
+    feedback: String
+  }],
+  status: { 
+    type: String, 
+    enum: ['active', 'completed', 'dropped'], 
+    default: 'active' 
+  }
+});
+
+// Models
+const User = mongoose.model('User', UserSchema);
+const Course = mongoose.model('Course', CourseSchema);
+const Enrollment = mongoose.model('Enrollment', EnrollmentSchema);
+
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
+
+// Middleware for authentication
+const authenticateUser = async (req, res, next) => {
+  try {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await User.findOne({ _id: decoded.userId });
+
+    if (!user) {
+      throw new Error();
+    }
+
+    req.token = token;
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).send({ error: 'Please authenticate.' });
+  }
+};
+
+// Authorization middleware
+const authorize = (roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).send({ error: 'Access denied' });
+    }
+    next();
+  };
+};
+
+// User Registration
+app.post('/register', async (req, res) => {
+  try {
+    const { username, email, password, role, firstName, lastName } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ 
+      $or: [{ email }, { username }] 
+    });
+    if (existingUser) {
+      return res.status(400).send({ error: 'User already exists' });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create user
+    const user = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+      profile: { firstName, lastName }
+    });
+
+    await user.save();
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role }, 
+      JWT_SECRET, 
+      { expiresIn: '500h' }
+    );
+
+    res.status(201).send({ user, token });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// User Login
+app.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(401).send({ error: 'Login failed' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send({ error: 'Login failed' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role }, 
+      JWT_SECRET, 
+      { expiresIn: '500h' }
+    );
+
+    res.send({ user, token });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// Course Creation (for Instructors)
+app.post('/courses', authenticateUser, authorize(['instructor']), async (req, res) => {
+  try {
+    const { title, description, materials, assignments } = req.body;
+
+    const course = new Course({
+      title,
+      description,
+      instructor: req.user._id,
+      materials,
+      assignments
+    });
+
+    await course.save();
+    res.status(201).send(course);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// Get Courses (for Students)
+app.get('/courses', authenticateUser, async (req, res) => {
+  try {
+    let courses;
+    if (req.user.role === 'student') {
+      // For students, fetch all courses or enrolled courses
+      const enrollments = await Enrollment.find({ 
+        student: req.user._id 
+      }).populate('course');
+      courses = enrollments.map(enrollment => enrollment.course);
+    } else if (req.user.role === 'instructor') {
+      // For instructors, fetch their own courses
+      courses = await Course.find({ instructor: req.user._id });
+    } else {
+      // For admins, fetch all courses
+      courses = await Course.find();
+    }
+
+    res.send(courses);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// Enroll in Course (for Students)
+app.post('/courses/:courseId/enroll', 
+  authenticateUser, 
+  authorize(['student']), 
+  async (req, res) => {
+    try {
+      const courseId = req.params.courseId;
+      
+      // Check if course exists
+      const course = await Course.findById(courseId);
+      if (!course) {
+        return res.status(404).send({ error: 'Course not found' });
+      }
+
+      // Check if already enrolled
+      const existingEnrollment = await Enrollment.findOne({
+        student: req.user._id,
+        course: courseId
+      });
+
+      if (existingEnrollment) {
+        return res.status(400).send({ error: 'Already enrolled in this course' });
+      }
+
+      // Create enrollment
+      const enrollment = new Enrollment({
+        student: req.user._id,
+        course: courseId
+      });
+
+      await enrollment.save();
+      res.status(201).send(enrollment);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  }
+);
+
+// Submit Assignment (for Students)
+app.post('/courses/:courseId/assignments/:assignmentId/submit', 
+  authenticateUser, 
+  authorize(['student']), 
+  upload.single('submission'),
+  async (req, res) => {
+    try {
+      const { courseId, assignmentId } = req.params;
+      const submissionFile = req.file;
+
+      // Validate enrollment
+      const enrollment = await Enrollment.findOne({
+        student: req.user._id,
+        course: courseId
+      });
+
+      if (!enrollment) {
+        return res.status(403).send({ error: 'Not enrolled in this course' });
+      }
+
+      // Update enrollment with assignment submission
+      enrollment.grades.push({
+        assignmentId,
+        score: null,
+        feedback: null
+      });
+
+      await enrollment.save();
+
+      res.status(201).send({
+        message: 'Assignment submitted',
+        file: submissionFile.filename
+      });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  }
+);
+
+// Grade Assignment (for Instructors)
+app.post('/courses/:courseId/assignments/:assignmentId/grade', 
+  authenticateUser, 
+  authorize(['instructor']), 
+  async (req, res) => {
+    try {
+      const { courseId, assignmentId } = req.params;
+      const { studentId, score, feedback } = req.body;
+
+      // Verify course belongs to instructor
+      const course = await Course.findOne({
+        _id: courseId,
+        instructor: req.user._id
+      });
+
+      if (!course) {
+        return res.status(403).send({ error: 'Not authorized to grade this course' });
+      }
+
+      // Update student's enrollment
+      const enrollment = await Enrollment.findOne({
+        student: studentId,
+        course: courseId
+      });
+
+      if (!enrollment) {
+        return res.status(404).send({ error: 'Enrollment not found' });
+      }
+
+      // Find and update the specific assignment grade
+      const gradeIndex = enrollment.grades.findIndex(
+        grade => grade.assignmentId.toString() === assignmentId
+      );
+
+      if (gradeIndex !== -1) {
+        enrollment.grades[gradeIndex].score = score;
+        enrollment.grades[gradeIndex].feedback = feedback;
+      } else {
+        enrollment.grades.push({
+          assignmentId,
+          score,
+          feedback
+        });
+      }
+
+      await enrollment.save();
+      res.send(enrollment);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  }
+);
+
+// User Management (for Administrators)
+app.get('/admin/users', 
+  authenticateUser, 
+  authorize(['admin']), 
+  async (req, res) => {
+    try {
+      const users = await User.find({}, { password: 0 });
+      res.send(users);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
+);
+
+// Delete User (for Administrators)
+app.delete('/admin/users/:userId', 
+  authenticateUser, 
+  authorize(['admin']), 
+  async (req, res) => {
+    try {
+      const user = await User.findByIdAndDelete(req.params.userId);
+      
+      if (!user) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+
+      res.send({ message: 'User deleted successfully' });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }
+);
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+module.exports = app;
