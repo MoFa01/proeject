@@ -92,7 +92,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, file.originalname);
   }
 });
 const upload = multer({ storage: storage });
@@ -419,6 +419,7 @@ app.delete('/admin/users/:userId',
 
 //================================================================
 //================================================================
+
 app.get('/AllcoursesEn',authenticateUser,authorize(['student']) ,async (req, res) => {
   try {
     // Assuming the student ID is passed as a token or part of the session
@@ -492,6 +493,189 @@ app.get('/courses/:courseId/details', authenticateUser,authorize(['student']),as
     res.status(500).json({ message: 'An error occurred while fetching course details.' });
   }
 });
+//---------
+const AssignmentSubmissionSchema = new mongoose.Schema({
+  assignment: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
+  },
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  submissionFile: {
+    type: String,
+    required: true
+  },
+  submissionDate: {
+    type: Date,
+    default: Date.now
+  },
+  status: {
+    type: String,
+    enum: ['submitted', 'graded'],
+    default: 'submitted'
+  }
+});
+
+const AssignmentSubmission = mongoose.model('AssignmentSubmission', AssignmentSubmissionSchema);
+
+app.post('/assignments/:assignmentId/submit',authenticateUser,authorize(['student']),  upload.single('file'), async (req, res) => {
+  try {
+    const { assignmentId } = req.params;
+    const studentId = req.user._id; // Replace with actual authentication logic
+
+    // Check if the assignment exists in a course
+    const course = await Course.findOne({ 'assignments._id': assignmentId });
+
+    if (!course) {
+      return res.status(404).json({ message: 'Assignment not found' });
+    }
+
+    // Ensure the student is enrolled in the course
+    const enrollment = await Enrollment.findOne({
+      student: studentId,
+      course: course._id
+    });
+
+    if (!enrollment) {
+      return res.status(403).json({ message: 'You are not enrolled in this course' });
+    }
+
+    // Check if the student has already submitted the assignment
+    const existingSubmission = await AssignmentSubmission.findOne({
+      assignment: assignmentId,
+      student: studentId
+    });
+
+    if (existingSubmission) {
+      return res.status(400).json({ message: 'Assignment already submitted.' });
+    }
+
+    const submissionFile1 = req.file;
+
+    // Save the submission
+    const newSubmission = new AssignmentSubmission({
+      assignment: assignmentId,
+      student: studentId,
+      submissionFile: "http://localhost:3000/uploads/"+ submissionFile1.filename // Path to the uploaded file
+    });
+
+    await newSubmission.save();
+
+    res.status(200).json({ message: 'Assignment submitted successfully!', submission: newSubmission });
+  } catch (error) {
+    console.error('Error submitting assignment:', error);
+    res.status(500).json({ message: 'An error occurred while submitting the assignment.' });
+  }
+});
+app.get('/courses/:courseId/assignments', authenticateUser, 
+  authorize(['instructor']), async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const instructorId = req.user._id; // Replace with actual authentication logic
+
+    // Check if the course exists and is created by the instructor
+    const course = await Course.findOne({ _id: courseId, instructor: instructorId });
+
+    if (!course) {
+      return res.status(403).json({ message: 'You do not have permission to access this course.' });
+    }
+
+    // Fetch all assignments and their submissions
+    const submissions = await AssignmentSubmission.find({
+      assignment: { $in: course.assignments.map(a => a._id) }
+    }).populate('student', 'username email');
+
+    res.status(200).json({
+      course: {
+        title: course.title,
+        assignments: course.assignments.map(assignment => ({
+          ...assignment.toObject(),
+          submissions: submissions.filter(sub => sub.assignment.toString() === assignment._id.toString())
+        }))
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching assignments:', error);
+    res.status(500).json({ message: 'An error occurred while fetching assignments.' });
+  }
+});
+
+
+
+app.put('/assignments/:assignmentId/submissions/:submissionId/grade',authenticateUser, 
+  authorize(['instructor']),  async (req, res) => {
+    try {
+      const { assignmentId, submissionId } = req.params;
+      const { score, feedback } = req.body;
+      const instructorId = req.user._id; // Replace with actual authentication logic
+  
+      // Validate that the course and assignment belong to the instructor
+      const course = await Course.findOne({ 'assignments._id': assignmentId, instructor: instructorId });
+  
+      if (!course) {
+        return res.status(403).json({ message: 'You do not have permission to grade this assignment.' });
+      }
+  
+      // Validate the submission exists
+      const submission = await AssignmentSubmission.findOne({
+        _id: submissionId,
+        assignment: assignmentId
+      });
+  
+      if (!submission) {
+        return res.status(404).json({ message: 'Submission not found.' });
+      }
+  
+      // Update the submission with score, feedback, and status
+      submission.status = 'graded';
+      await submission.save();
+  
+      // Update the student's grade in their Enrollment
+      const enrollment = await Enrollment.findOne({
+        student: submission.student,
+        course: course._id
+      });
+  
+      if (!enrollment) {
+        return res.status(404).json({ message: 'Enrollment not found for this student.' });
+      }
+  
+      // Update or add the assignment grade
+      const gradeIndex = enrollment.grades.findIndex(grade =>
+        grade.assignmentId.toString() === assignmentId
+      );
+  
+      if (gradeIndex > -1) {
+        // Update existing grade
+        enrollment.grades[gradeIndex].score = score;
+        enrollment.grades[gradeIndex].feedback = feedback;
+      } else {
+        // Add new grade
+        enrollment.grades.push({
+          assignmentId,
+          score,
+          feedback
+        });
+      }
+  
+      await enrollment.save();
+  
+      res.status(200).json({
+        message: 'Submission graded successfully.',
+        submission,
+        enrollment
+      });
+    } catch (error) {
+      console.error('Error grading submission:', error);
+      res.status(500).json({ message: 'An error occurred while grading the submission.' });
+    }
+});
+
+
+
 
 // Start Server
 app.listen(PORT, () => {
