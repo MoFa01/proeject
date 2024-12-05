@@ -255,12 +255,13 @@ app.get('/courses', authenticateUser, async (req, res) => {
 });
 
 // Enroll in Course (for Students)
-app.post('/courses/:courseId/enroll', 
+app.post('/courses/:courseId/enroll/:studentId', 
   authenticateUser, 
-  authorize(['student']), 
+  authorize(['admin']), 
   async (req, res) => {
     try {
       const courseId = req.params.courseId;
+      const studentId = req.params.studentId;
       
       // Check if course exists
       const course = await Course.findById(courseId);
@@ -270,7 +271,7 @@ app.post('/courses/:courseId/enroll',
 
       // Check if already enrolled
       const existingEnrollment = await Enrollment.findOne({
-        student: req.user._id,
+        student: studentId,
         course: courseId
       });
 
@@ -280,104 +281,12 @@ app.post('/courses/:courseId/enroll',
 
       // Create enrollment
       const enrollment = new Enrollment({
-        student: req.user._id,
+        student: studentId,
         course: courseId
       });
 
       await enrollment.save();
       res.status(201).send(enrollment);
-    } catch (error) {
-      res.status(400).send(error);
-    }
-  }
-);
-
-// Submit Assignment (for Students)
-app.post('/courses/:courseId/assignments/:assignmentId/submit', 
-  authenticateUser, 
-  authorize(['student']), 
-  upload.single('submission'),
-  async (req, res) => {
-    try {
-      const { courseId, assignmentId } = req.params;
-      const submissionFile = req.file;
-
-      // Validate enrollment
-      const enrollment = await Enrollment.findOne({
-        student: req.user._id,
-        course: courseId
-      });
-
-      if (!enrollment) {
-        return res.status(403).send({ error: 'Not enrolled in this course' });
-      }
-
-      // Update enrollment with assignment submission
-      enrollment.grades.push({
-        assignmentId,
-        score: null,
-        feedback: null
-      });
-
-      await enrollment.save();
-
-      res.status(201).send({
-        message: 'Assignment submitted',
-        file: submissionFile.filename
-      });
-    } catch (error) {
-      res.status(400).send(error);
-    }
-  }
-);
-
-// Grade Assignment (for Instructors)
-app.post('/courses/:courseId/assignments/:assignmentId/grade', 
-  authenticateUser, 
-  authorize(['instructor']), 
-  async (req, res) => {
-    try {
-      const { courseId, assignmentId } = req.params;
-      const { studentId, score, feedback } = req.body;
-
-      // Verify course belongs to instructor
-      const course = await Course.findOne({
-        _id: courseId,
-        instructor: req.user._id
-      });
-
-      if (!course) {
-        return res.status(403).send({ error: 'Not authorized to grade this course' });
-      }
-
-      // Update student's enrollment
-      const enrollment = await Enrollment.findOne({
-        student: studentId,
-        course: courseId
-      });
-
-      if (!enrollment) {
-        return res.status(404).send({ error: 'Enrollment not found' });
-      }
-
-      // Find and update the specific assignment grade
-      const gradeIndex = enrollment.grades.findIndex(
-        grade => grade.assignmentId.toString() === assignmentId
-      );
-
-      if (gradeIndex !== -1) {
-        enrollment.grades[gradeIndex].score = score;
-        enrollment.grades[gradeIndex].feedback = feedback;
-      } else {
-        enrollment.grades.push({
-          assignmentId,
-          score,
-          feedback
-        });
-      }
-
-      await enrollment.save();
-      res.send(enrollment);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -450,49 +359,57 @@ app.get('/AllcoursesEn',authenticateUser,authorize(['student']) ,async (req, res
   }
 });
 
-app.get('/courses/:courseId/details', authenticateUser,authorize(['student']),async (req, res) => {
-  try {
-    const courseId = req.params.courseId;
-    const studentId = req.user._id; // Replace with actual student ID retrieval logic
+app.get(
+  '/courses/:courseId/details',
+  authenticateUser,
+  authorize(['student']),
+  async (req, res) => {
+    try {
+      const courseId = req.params.courseId;
+      const studentId = req.user._id; // Replace with actual student ID retrieval logic
 
-    // Fetch the course
-    const course = await Course.findById(courseId);
+      // Fetch the course
+      const course = await Course.findById(courseId);
 
-    if (!course) {
-      return res.status(404).json({ message: 'Course not found' });
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found' });
+      }
+
+      // Fetch the student's enrollment in the course
+      const enrollment = await Enrollment.findOne({
+        student: studentId,
+        course: courseId
+      });
+
+      if (!enrollment) {
+        return res.status(403).json({ message: 'You are not enrolled in this course' });
+      }
+
+      // Map through the assignments and include grade details if available
+      const assignmentsWithGrades = course.assignments.map(assignment => {
+        const grade = enrollment.grades.find(
+          g => g.assignmentId.toString() === assignment._id.toString()
+        );
+
+        return {
+          ...assignment.toObject(),
+          score: grade ? grade.score : null,
+          feedback: grade ? grade.feedback : null
+        };
+      });
+
+      // Send the response with materials and assignments
+      res.status(200).json({
+        materials: course.materials,
+        assignments: assignmentsWithGrades
+      });
+    } catch (error) {
+      console.error('Error fetching course details:', error);
+      res.status(500).json({ message: 'An error occurred while fetching course details.' });
     }
-
-    // Fetch the student's enrollment in the course
-    const enrollment = await Enrollment.findOne({
-      student: studentId,
-      course: courseId
-    });
-
-    if (!enrollment) {
-      return res.status(403).json({ message: 'You are not enrolled in this course' });
-    }
-
-    // Mark assignments as "done" if the student has submitted them
-    const assignmentsWithStatus = course.assignments.map(assignment => {
-      const isDone = enrollment.grades.some(grade =>
-        grade.assignmentId.toString() === assignment._id.toString()
-      );
-      return {
-        ...assignment.toObject(),
-        done: isDone
-      };
-    });
-
-    // Send the response with materials and assignments
-    res.status(200).json({
-      materials: course.materials,
-      assignments: assignmentsWithStatus
-    });
-  } catch (error) {
-    console.error('Error fetching course details:', error);
-    res.status(500).json({ message: 'An error occurred while fetching course details.' });
   }
-});
+);
+
 //---------
 const AssignmentSubmissionSchema = new mongoose.Schema({
   assignment: {
@@ -674,6 +591,53 @@ app.put('/assignments/:assignmentId/submissions/:submissionId/grade',authenticat
     }
 });
 
+app.get(
+  '/courses/:courseId/grades',
+  authenticateUser,
+  authorize(['instructor']),
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      const instructorId = req.user._id; // Replace with actual instructor ID retrieval logic
+
+      // Ensure the instructor owns the course
+      const course = await Course.findOne({ _id: courseId, instructor: instructorId });
+
+      if (!course) {
+        return res.status(403).json({ message: 'You do not have permission to view grades for this course.' });
+      }
+
+      // Fetch all enrollments for the course
+      const enrollments = await Enrollment.find({ course: courseId }).populate('student', 'username email');
+
+      // Format grades for response
+      const gradesReport = enrollments.map(enrollment => ({
+        student: {
+          id: enrollment.student._id,
+          username: enrollment.student.username,
+          email: enrollment.student.email
+        },
+        grades: enrollment.grades.map(grade => ({
+          assignmentId: grade.assignmentId,
+          score: grade.score,
+          feedback: grade.feedback
+        })),
+        status: enrollment.status
+      }));
+
+      res.status(200).json({
+        course: {
+          id: course._id,
+          title: course.title
+        },
+        grades: gradesReport
+      });
+    } catch (error) {
+      console.error('Error fetching grades:', error);
+      res.status(500).json({ message: 'An error occurred while fetching grades.' });
+    }
+  }
+);
 
 
 
