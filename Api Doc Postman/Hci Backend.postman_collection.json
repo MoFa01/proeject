@@ -1,0 +1,2171 @@
+{
+	"info": {
+		"_postman_id": "5da73385-5cbe-41c6-8121-6d20c4cea931",
+		"name": "Hci Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24694319"
+	},
+	"item": [
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"fahd2\",\r\n  \"email\": \"fahd2@gmail.com\",\r\n  \"password\": \"fahd2\",\r\n  \"role\": \"student\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Registration",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"fahd2\",\r\n  \"email\": \"fahd2@gmail.com\",\r\n  \"password\": \"fahd2\",\r\n  \"role\": \"student\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "397"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"18d-DP4XHNSkVosJ1/Q0+hHJmwUpBgY\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 02:19:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"username\": \"fahd2\",\n        \"email\": \"fahd2@gmail.com\",\n        \"password\": \"$2a$10$75WTv9Rq6v4rZhDdpMixWurXsAOd1.MW7yExSvKFB4oyoYNZaqvRa\",\n        \"role\": \"student\",\n        \"_id\": \"674fbc24557152ce27893423\",\n        \"__v\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmYmMyNDU1NzE1MmNlMjc4OTM0MjMiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzI3ODc1NywiZXhwIjoxNzY5Mjc4NzU3fQ.OaCyBv6q4K243dVspRtneX8RswE8bm12ymU4r47oO-A\"\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"fahd2\",\r\n  \"password\": \"fahd2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"fahd2\",\r\n  \"password\": \"fahd2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "397"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"18d-vNemvcih6ptf5nZWl5gFFZgMuR8\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 18:32:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"_id\": \"6750a0180041a5f6889c69f2\",\n        \"username\": \"fahd2\",\n        \"email\": \"fahd2@gmail.com\",\n        \"password\": \"$2a$10$lPc0QLR2QTu.QoZZqbIa2Ol8adMgzFkGboL9GtGJ6O.8Nc3EOK15q\",\n        \"role\": \"student\",\n        \"__v\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all course with enrolled",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/AllcoursesEn",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"AllcoursesEn"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all course with enrolled",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/AllcoursesEn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"AllcoursesEn"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1279"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4ff-5OHcEkfOphD7mHbJni0jSarPlSk\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 22:08:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6750a0e10041a5f6889c69fd\",\n        \"title\": \"supabase Coures\",\n        \"description\": \"learn supabase\",\n        \"instructor\": \"6750a08d0041a5f6889c69f9\",\n        \"materials\": [\n            {\n                \"type\": \"lecture\",\n                \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n                \"_id\": \"6750a0e10041a5f6889c69fe\"\n            }\n        ],\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750a0e10041a5f6889c69ff\"\n            }\n        ],\n        \"__v\": 0,\n        \"enrolled\": true\n    },\n    {\n        \"_id\": \"6750d2e9a3e04fb6334626f2\",\n        \"title\": \"c Coures\",\n        \"description\": \"learn supabase\",\n        \"instructor\": \"6750a08d0041a5f6889c69f9\",\n        \"materials\": [\n            {\n                \"type\": \"lecture\",\n                \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n                \"_id\": \"6750d2e9a3e04fb6334626f3\"\n            }\n        ],\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750d2e9a3e04fb6334626f4\"\n            }\n        ],\n        \"__v\": 0,\n        \"enrolled\": false\n    },\n    {\n        \"_id\": \"6750d2f2a3e04fb6334626f7\",\n        \"title\": \"java Coures\",\n        \"description\": \"learn supabase\",\n        \"instructor\": \"6750a08d0041a5f6889c69f9\",\n        \"materials\": [\n            {\n                \"type\": \"lecture\",\n                \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n                \"_id\": \"6750d2f2a3e04fb6334626f8\"\n            }\n        ],\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750d2f2a3e04fb6334626f9\"\n            }\n        ],\n        \"__v\": 0,\n        \"enrolled\": false\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get My courses",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get My courses",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 18:33:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					]
+				},
+				{
+					"name": "Get Course Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/details",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses",
+								"6750a0e10041a5f6889c69fd",
+								"details"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Course Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/details",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses",
+										"6750a0e10041a5f6889c69fd",
+										"details"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "314"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"13a-uwTCACam6wnVrr2WgGnu+pM8cKw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 23:56:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"materials\": [\n        {\n            \"type\": \"lecture\",\n            \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n            \"_id\": \"6750a0e10041a5f6889c69fe\"\n        }\n    ],\n    \"assignments\": [\n        {\n            \"title\": \"string\",\n            \"description\": \"string\",\n            \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n            \"maxScore\": 100,\n            \"_id\": \"6750a0e10041a5f6889c69ff\",\n            \"score\": 50,\n            \"feedback\": \"good job ya man\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit Assignment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/F:/Mohamed Fahd - FOLDER/term1/Mobile Computing/05-CellularNetwork.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/assignments/6750a0e10041a5f6889c69ff/submit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"assignments",
+								"6750a0e10041a5f6889c69ff",
+								"submit"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Submit Assignment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/F:/Mohamed Fahd - FOLDER/term1/Mobile Computing/01-Introduction (1).pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/assignments/6750a0e10041a5f6889c69ff/submit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"assignments",
+										"6750a0e10041a5f6889c69ff",
+										"submit"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "319"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"13f-wZoVVDVQGJLKfm2iHCY7z5S7wJM\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 23:04:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Assignment submitted successfully!\",\n    \"submission\": {\n        \"assignment\": \"6750a0e10041a5f6889c69ff\",\n        \"student\": \"6750a0180041a5f6889c69f2\",\n        \"submissionFile\": \"http://localhost:3000/uploads/01-Introduction (1).pdf\",\n        \"status\": \"submitted\",\n        \"_id\": \"6750dfe2215592cfacf0c169\",\n        \"submissionDate\": \"2024-12-04T23:04:02.579Z\",\n        \"__v\": 0\n    }\n}"
+						},
+						{
+							"name": "Submit Assignment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/F:/Mohamed Fahd - FOLDER/term1/Mobile Computing/05-CellularNetwork.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/assignments/6750a0e10041a5f6889c69ff/submit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"assignments",
+										"6750a0e10041a5f6889c69ff",
+										"submit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-qrxI4CEVfIvqIrRFWvuCg7/42SA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 23:15:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Assignment already submitted.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit Assignment 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/F:/Mohamed Fahd - FOLDER/term1/Mobile Computing/01-Introduction (1).pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/assignments/6750a0e10041a5f6889c69ff/submit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"assignments",
+								"6750a0e10041a5f6889c69ff",
+								"submit"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Submit Assignment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTAxODAwNDFhNWY2ODg5YzY5ZjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTczMzMzNzEyMywiZXhwIjoxNzY5MzM3MTIzfQ.31TDj-ffmVTd4lfSa9jbGHXMsAg8BAuz-31POR8UXuM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/F:/Mohamed Fahd - FOLDER/term1/Mobile Computing/05-CellularNetwork.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/assignments/6750a0e10041a5f6889c69ff/submit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"assignments",
+										"6750a0e10041a5f6889c69ff",
+										"submit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-qrxI4CEVfIvqIrRFWvuCg7/42SA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 23:15:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Assignment already submitted.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "instructor",
+			"item": [
+				{
+					"name": "instructor Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"instructorFahd2\",\r\n  \"email\": \"instructorFahd2@gmail.com\",\r\n  \"password\": \"instructorFahd2\",\r\n  \"role\": \"instructor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "instructor Registration",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"instructorFahd2\",\r\n  \"email\": \"instructorFahd2@gmail.com\",\r\n  \"password\": \"instructorFahd2\",\r\n  \"role\": \"instructor\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "424"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a8-3pEKn39KeFY+AHj5NDrXBf2yVMw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 18:33:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"username\": \"instructorFahd2\",\n        \"email\": \"instructorFahd2@gmail.com\",\n        \"password\": \"$2a$10$XRFm8ERYD4RKUd/sGBjriuVm2cBFkH.H6b4k5U7ayRx9JkT6tvqKq\",\n        \"role\": \"instructor\",\n        \"_id\": \"6750a08d0041a5f6889c69f9\",\n        \"__v\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzIzMCwiZXhwIjoxNzY5MzM3MjMwfQ.GXXlHGzIxSRINZwSIf9jh_3pLU5E5_W5OMHJtJ0E1v8\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login instructor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"instructorFahd2\",\r\n  \"password\": \"instructorFahd2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login instructor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"instructorFahd2\",\r\n  \"password\": \"instructorFahd2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "424"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a8-AjoTy46a8ct3InNDv7Mzk3L8a0k\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 18:34:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"_id\": \"6750a08d0041a5f6889c69f9\",\n        \"username\": \"instructorFahd2\",\n        \"email\": \"instructorFahd2@gmail.com\",\n        \"password\": \"$2a$10$XRFm8ERYD4RKUd/sGBjriuVm2cBFkH.H6b4k5U7ayRx9JkT6tvqKq\",\n        \"role\": \"instructor\",\n        \"__v\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Add course",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"java Coures\",\r\n  \"description\": \"learn supabase\",\r\n  \"materials\": [\r\n    {\r\n      \"type\": \"lecture\",\r\n      \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\"\r\n    }\r\n  ],\r\n  \"assignments\": [\r\n    {\r\n      \"title\": \"string\",\r\n      \"description\": \"string\",\r\n      \"dueDate\": \"2024/04/14\",\r\n      \"maxScore\": \"100\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add course",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"supabase Coures\",\r\n  \"description\": \"learn supabase\",\r\n  \"materials\": [\r\n    {\r\n      \"type\": \"lecture\",\r\n      \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\"\r\n    }\r\n  ],\r\n  \"assignments\": [\r\n    {\r\n      \"title\": \"string\",\r\n      \"description\": \"string\",\r\n      \"dueDate\": \"2024/04/14\",\r\n      \"maxScore\": \"100\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "412"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"19c-n8zy98ZPGkcAnOUMBIgZXIKkm44\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 18:35:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": \"supabase Coures\",\n    \"description\": \"learn supabase\",\n    \"instructor\": \"6750a08d0041a5f6889c69f9\",\n    \"materials\": [\n        {\n            \"type\": \"lecture\",\n            \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n            \"_id\": \"6750a0e10041a5f6889c69fe\"\n        }\n    ],\n    \"assignments\": [\n        {\n            \"title\": \"string\",\n            \"description\": \"string\",\n            \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n            \"maxScore\": 100,\n            \"_id\": \"6750a0e10041a5f6889c69ff\"\n        }\n    ],\n    \"_id\": \"6750a0e10041a5f6889c69fd\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Get My courses",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get My courses",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "414"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"19e-FqBP46JaYmNKEreqZ/LJiDKb/7w\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 18:35:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6750a0e10041a5f6889c69fd\",\n        \"title\": \"supabase Coures\",\n        \"description\": \"learn supabase\",\n        \"instructor\": \"6750a08d0041a5f6889c69f9\",\n        \"materials\": [\n            {\n                \"type\": \"lecture\",\n                \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n                \"_id\": \"6750a0e10041a5f6889c69fe\"\n            }\n        ],\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750a0e10041a5f6889c69ff\"\n            }\n        ],\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "View Assignments and Submissions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/assignments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses",
+								"6750a0e10041a5f6889c69fd",
+								"assignments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "View Assignments and Submissions",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/assignments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses",
+										"6750a0e10041a5f6889c69fd",
+										"assignments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "508"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1fc-9fUIAsLKGQxjRB58xiYKAY2IkBg\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 23:30:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"course\": {\n        \"title\": \"supabase Coures\",\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750a0e10041a5f6889c69ff\",\n                \"submissions\": [\n                    {\n                        \"_id\": \"6750dfe2215592cfacf0c169\",\n                        \"assignment\": \"6750a0e10041a5f6889c69ff\",\n                        \"student\": {\n                            \"_id\": \"6750a0180041a5f6889c69f2\",\n                            \"username\": \"fahd2\",\n                            \"email\": \"fahd2@gmail.com\"\n                        },\n                        \"submissionFile\": \"http://localhost:3000/uploads/01-Introduction (1).pdf\",\n                        \"status\": \"submitted\",\n                        \"submissionDate\": \"2024-12-04T23:04:02.579Z\",\n                        \"__v\": 0\n                    }\n                ]\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit Grade",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score\" : \"50\" ,\r\n    \"feedback\" : \"good job ya man\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/assignments/6750a0e10041a5f6889c69ff/submissions/6750dfe2215592cfacf0c169/grade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"assignments",
+								"6750a0e10041a5f6889c69ff",
+								"submissions",
+								"6750dfe2215592cfacf0c169",
+								"grade"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Submit Grade",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"score\" : \"50\" ,\r\n    \"feedback\" : \"good job ya man\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/assignments/6750a0e10041a5f6889c69ff/submissions/6750dfe2215592cfacf0c169/grade",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"assignments",
+										"6750a0e10041a5f6889c69ff",
+										"submissions",
+										"6750dfe2215592cfacf0c169",
+										"grade"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "601"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"259-wwzTjdOtbwPWAjVgzJ5e9LsdO0o\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Dec 2024 23:47:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Submission graded successfully.\",\n    \"submission\": {\n        \"_id\": \"6750dfe2215592cfacf0c169\",\n        \"assignment\": \"6750a0e10041a5f6889c69ff\",\n        \"student\": \"6750a0180041a5f6889c69f2\",\n        \"submissionFile\": \"http://localhost:3000/uploads/01-Introduction (1).pdf\",\n        \"status\": \"graded\",\n        \"submissionDate\": \"2024-12-04T23:04:02.579Z\",\n        \"__v\": 0\n    },\n    \"enrollment\": {\n        \"_id\": \"6750a1740041a5f6889c6a12\",\n        \"student\": \"6750a0180041a5f6889c69f2\",\n        \"course\": \"6750a0e10041a5f6889c69fd\",\n        \"progress\": 0,\n        \"status\": \"active\",\n        \"grades\": [\n            {\n                \"assignmentId\": \"6750a0e10041a5f6889c69ff\",\n                \"score\": 50,\n                \"feedback\": \"good job ya man\",\n                \"_id\": \"6750ea02f14a5a05bc7b2162\"\n            }\n        ],\n        \"__v\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "students' grades for a specific course",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/grades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses",
+								"6750a0e10041a5f6889c69fd",
+								"grades"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "students' grades for a specific course",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwYTA4ZDAwNDFhNWY2ODg5YzY5ZjkiLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTczMzMzNzI1MCwiZXhwIjoxNzY5MzM3MjUwfQ.2arTgA-eiM-51hdrbtyf2JcON3w88WtMIO_c9jvcy1Y",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/grades",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses",
+										"6750a0e10041a5f6889c69fd",
+										"grades"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "285"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"11d-Zpep7G6Fr1o7ThIbM0NAoL5w8nA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Dec 2024 00:04:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"course\": {\n        \"id\": \"6750a0e10041a5f6889c69fd\",\n        \"title\": \"supabase Coures\"\n    },\n    \"grades\": [\n        {\n            \"student\": {\n                \"id\": \"6750a0180041a5f6889c69f2\",\n                \"username\": \"fahd2\",\n                \"email\": \"fahd2@gmail.com\"\n            },\n            \"grades\": [\n                {\n                    \"assignmentId\": \"6750a0e10041a5f6889c69ff\",\n                    \"score\": 50,\n                    \"feedback\": \"good job ya man\"\n                }\n            ],\n            \"status\": \"active\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Registration Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"AdminFahd\",\r\n  \"email\": \"AdminFahd@gmail.com\",\r\n  \"password\": \"AdminFahd\",\r\n  \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Registration Admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"AdminFahd\",\r\n  \"email\": \"AdminFahd@gmail.com\",\r\n  \"password\": \"AdminFahd\",\r\n  \"role\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "400"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"190-zGDw2T3P4j+f9IWwBN5SCGj0QPU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Dec 2024 01:13:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"username\": \"AdminFahd\",\n        \"email\": \"AdminFahd@gmail.com\",\n        \"password\": \"$2a$10$nmbUuPOTolgsDShPD9Oo/e.c8XJ2jms6Pk1XzvsXc9P1HXDyfolxG\",\n        \"role\": \"admin\",\n        \"_id\": \"6750fe4e8199e65742db5aef\",\n        \"__v\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyMzAsImV4cCI6MTc2OTM2MTIzMH0.YnkVXxtbl0onntIFHZoKpald0WW2KM8pcyk1vYz3AMo\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"AdminFahd\",\r\n  \"password\": \"AdminFahd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login Admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"AdminFahd\",\r\n  \"password\": \"AdminFahd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "400"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"190-amyUSv+L8VQGmChMTqhbDwwK1U4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Dec 2024 01:14:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"_id\": \"6750fe4e8199e65742db5aef\",\n        \"username\": \"AdminFahd\",\n        \"email\": \"AdminFahd@gmail.com\",\n        \"password\": \"$2a$10$nmbUuPOTolgsDShPD9Oo/e.c8XJ2jms6Pk1XzvsXc9P1HXDyfolxG\",\n        \"role\": \"admin\",\n        \"__v\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get courses",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get courses",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1229"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4cd-vspdOSmR3x0wNQ9GRZ48Z1WAOes\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Dec 2024 01:16:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6750a0e10041a5f6889c69fd\",\n        \"title\": \"supabase Coures\",\n        \"description\": \"learn supabase\",\n        \"instructor\": \"6750a08d0041a5f6889c69f9\",\n        \"materials\": [\n            {\n                \"type\": \"lecture\",\n                \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n                \"_id\": \"6750a0e10041a5f6889c69fe\"\n            }\n        ],\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750a0e10041a5f6889c69ff\"\n            }\n        ],\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6750d2e9a3e04fb6334626f2\",\n        \"title\": \"c Coures\",\n        \"description\": \"learn supabase\",\n        \"instructor\": \"6750a08d0041a5f6889c69f9\",\n        \"materials\": [\n            {\n                \"type\": \"lecture\",\n                \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n                \"_id\": \"6750d2e9a3e04fb6334626f3\"\n            }\n        ],\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750d2e9a3e04fb6334626f4\"\n            }\n        ],\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6750d2f2a3e04fb6334626f7\",\n        \"title\": \"java Coures\",\n        \"description\": \"learn supabase\",\n        \"instructor\": \"6750a08d0041a5f6889c69f9\",\n        \"materials\": [\n            {\n                \"type\": \"lecture\",\n                \"content\": \"https://www.youtube.com/watch?v=dU7GwCOgvNY&t=2562s\",\n                \"_id\": \"6750d2f2a3e04fb6334626f8\"\n            }\n        ],\n        \"assignments\": [\n            {\n                \"title\": \"string\",\n                \"description\": \"string\",\n                \"dueDate\": \"2024-04-13T22:00:00.000Z\",\n                \"maxScore\": 100,\n                \"_id\": \"6750d2f2a3e04fb6334626f9\"\n            }\n        ],\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Enroll in Course",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/enroll/67510043948e905fc189845f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"courses",
+								"6750a0e10041a5f6889c69fd",
+								"enroll",
+								"67510043948e905fc189845f"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Enroll in Course",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/courses/6750a0e10041a5f6889c69fd/enroll/67510043948e905fc189845f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"courses",
+										"6750a0e10041a5f6889c69fd",
+										"enroll",
+										"67510043948e905fc189845f"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "158"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9e-Iww94EUTTuDlg4y3kmCNTJ3OVvA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Dec 2024 01:22:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"student\": \"67510043948e905fc189845f\",\n    \"course\": \"6750a0e10041a5f6889c69fd\",\n    \"progress\": 0,\n    \"status\": \"active\",\n    \"_id\": \"67510070948e905fc1898466\",\n    \"grades\": [],\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/admin/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/admin/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "448"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c0-fNlYic+7ILiOq63XVEtzn3BM9JA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Dec 2024 01:24:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6750a0180041a5f6889c69f2\",\n        \"username\": \"fahd2\",\n        \"email\": \"fahd2@gmail.com\",\n        \"role\": \"student\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6750a08d0041a5f6889c69f9\",\n        \"username\": \"instructorFahd2\",\n        \"email\": \"instructorFahd2@gmail.com\",\n        \"role\": \"instructor\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6750fe4e8199e65742db5aef\",\n        \"username\": \"AdminFahd\",\n        \"email\": \"AdminFahd@gmail.com\",\n        \"role\": \"admin\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"67510043948e905fc189845f\",\n        \"username\": \"temp\",\n        \"email\": \"temp@gmail.com\",\n        \"role\": \"student\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/admin/users/67510043948e905fc189845f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"users",
+								"67510043948e905fc189845f"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete User",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwZmU0ZTgxOTllNjU3NDJkYjVhZWYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzMzNjEyNTMsImV4cCI6MTc2OTM2MTI1M30.zy0tRAvhiWjYG-i2GfwF-yVUs5kgDlgHUUVvaNMvLdU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/admin/users/67510043948e905fc189845f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"admin",
+										"users",
+										"67510043948e905fc189845f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "39"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"27-27o4zzUjhHNmthTJyia4gBCjpos\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 05 Dec 2024 01:26:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User deleted successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete db",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/delete-documents",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"delete-documents"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
