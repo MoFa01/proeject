@@ -127,22 +127,7 @@ const authorize = (roles) => {
 };
 
 
-async function deleteAllDocuments() {
-  try {
-    await User.deleteMany({});
-    await Course.deleteMany({});
-    await Enrollment.deleteMany({});
-    console.log('All documents in User, Course, and Enrollment collections have been deleted.');
-  } catch (error) {
-    console.error('Error deleting documents:', error);
-  }
-}
 
-// Endpoint to trigger document deletion
-app.delete('/delete-documents', async (req, res) => {
-  await deleteAllDocuments();
-  res.send('All documents have been deleted from User, Course, and Enrollment collections.');
-});
 
 app.post('/register', async (req, res) => {
   try {
@@ -639,7 +624,69 @@ app.get(
   }
 );
 
+app.get(
+  '/courses/:courseId/my-grades',
+  authenticateUser,
+  authorize(['student']),
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      const studentId = req.user._id; // Replace with actual student ID retrieval logic
 
+      // Verify if the course exists
+      const course = await Course.findById(courseId);
+
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found.' });
+      }
+
+      // Fetch the student's enrollment for the course
+      const enrollment = await Enrollment.findOne({
+        student: studentId,
+        course: courseId
+      });
+
+      if (!enrollment) {
+        return res.status(403).json({ message: 'You are not enrolled in this course.' });
+      }
+
+      // Return the grades for the enrolled course
+      res.status(200).json({
+        course: {
+          id: course._id,
+          title: course.title
+        },
+        grades: enrollment.grades.map(grade => ({
+          assignmentId: grade.assignmentId,
+          score: grade.score,
+          feedback: grade.feedback
+        }))
+      });
+    } catch (error) {
+      console.error('Error fetching grades:', error);
+      res.status(500).json({ message: 'An error occurred while fetching grades.' });
+    }
+  }
+);
+
+
+async function deleteAllDocuments() {
+  try {
+    await User.deleteMany({});
+    await Course.deleteMany({});
+    await Enrollment.deleteMany({});
+    await AssignmentSubmission.deleteMany({});
+    console.log('All documents in User, Course, and Enrollment collections have been deleted.');
+  } catch (error) {
+    console.error('Error deleting documents:', error);
+  }
+}
+
+// Endpoint to trigger document deletion
+app.delete('/delete-documents', async (req, res) => {
+  await deleteAllDocuments();
+  res.send('All documents have been deleted from User, Course, and Enrollment collections.');
+});
 
 // Start Server
 app.listen(PORT, () => {

@@ -9,3 +9,7 @@
      ```bash
       node main.js
 
+## Api Documentation like
+ ```bash
+    https://documenter.getpostman.com/view/24694319/2sAYBbd8TN
+
