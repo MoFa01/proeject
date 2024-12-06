@@ -670,6 +670,43 @@ app.get(
 );
 
 
+app.get('/my-grades',
+  authenticateUser,
+  authorize(['student']),
+  async (req, res) => {
+    try {
+      const studentId = req.user._id; // Replace with actual student ID retrieval logic
+
+      // Fetch all enrollments for the student
+      const enrollments = await Enrollment.find({ student: studentId }).populate('course', 'title');
+
+      // Filter and map grades for each course
+      const coursesWithGrades = enrollments
+        .filter(enrollment => enrollment.grades && enrollment.grades.length > 0)
+        .map(enrollment => ({
+          course: {
+            id: enrollment.course._id,
+            title: enrollment.course.title
+          },
+          grades: enrollment.grades.map(grade => ({
+            assignmentId: grade.assignmentId,
+            score: grade.score,
+            feedback: grade.feedback
+          }))
+        }));
+
+      if (coursesWithGrades.length === 0) {
+        return res.status(200).json({ message: 'No grades found for any courses.' });
+      }
+
+      res.status(200).json({ courses: coursesWithGrades });
+    } catch (error) {
+      console.error('Error fetching grades:', error);
+      res.status(500).json({ message: 'An error occurred while fetching grades.' });
+    }
+  }
+);
+
 async function deleteAllDocuments() {
   try {
     await User.deleteMany({});
@@ -687,6 +724,7 @@ app.delete('/delete-documents', async (req, res) => {
   await deleteAllDocuments();
   res.send('All documents have been deleted from User, Course, and Enrollment collections.');
 });
+
 
 // Start Server
 app.listen(PORT, () => {
