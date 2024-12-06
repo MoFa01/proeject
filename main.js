@@ -33,6 +33,10 @@ const UserSchema = new mongoose.Schema({
     type: String, 
     enum: ['student', 'instructor', 'admin'], 
     required: true 
+  },
+  isApproved: {
+    type: Boolean,
+    default: false // Default value set to false
   }
 });
 
@@ -131,7 +135,7 @@ const authorize = (roles) => {
 
 app.post('/register', async (req, res) => {
   try {
-    const { username, email, password, role, firstName, lastName } = req.body;
+    const { username, email, password, role } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ 
@@ -139,6 +143,9 @@ app.post('/register', async (req, res) => {
     });
     if (existingUser) {
       return res.status(400).send({ error: 'User already exists' });
+    }
+    if(role === 'admin') {
+      return res.status(400).send({ error: 'Admin role is not allowed for registration' });
     }
 
     // Hash password
@@ -155,14 +162,7 @@ app.post('/register', async (req, res) => {
 
     await user.save();
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { userId: user._id, role: user.role }, 
-      JWT_SECRET, 
-      { expiresIn: '10000h' }
-    );
-
-    res.status(201).send({ user, token });
+    res.status(201).send({ user});
   } catch (error) {
     res.status(400).send(error);
   }
@@ -180,6 +180,9 @@ app.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).send({ error: 'Login failed' });
+    }
+    if(user.isApproved === false){
+      return res.status(401).send({ error: 'Login failed: because the admin has not approved you yet' });
     }
 
     // Generate JWT token
@@ -344,8 +347,7 @@ app.get('/AllcoursesEn',authenticateUser,authorize(['student']) ,async (req, res
   }
 });
 
-app.get(
-  '/courses/:courseId/details',
+app.get('/courses/:courseId/details',
   authenticateUser,
   authorize(['student']),
   async (req, res) => {
@@ -456,12 +458,14 @@ app.post('/assignments/:assignmentId/submit',authenticateUser,authorize(['studen
     }
 
     const submissionFile1 = req.file;
+    console.log(req.file);
+    const tempFileName ="file:///" + __dirname + "/" + "uploads/" + submissionFile1.filename;
 
     // Save the submission
     const newSubmission = new AssignmentSubmission({
       assignment: assignmentId,
       student: studentId,
-      submissionFile: "http://localhost:3000/uploads/"+ submissionFile1.filename // Path to the uploaded file
+      submissionFile: tempFileName // Path to the uploaded file
     });
 
     await newSubmission.save();
@@ -576,8 +580,7 @@ app.put('/assignments/:assignmentId/submissions/:submissionId/grade',authenticat
     }
 });
 
-app.get(
-  '/courses/:courseId/grades',
+app.get('/courses/:courseId/grades',
   authenticateUser,
   authorize(['instructor']),
   async (req, res) => {
@@ -624,8 +627,7 @@ app.get(
   }
 );
 
-app.get(
-  '/courses/:courseId/my-grades',
+app.get('/courses/:courseId/my-grades',
   authenticateUser,
   authorize(['student']),
   async (req, res) => {
@@ -707,23 +709,113 @@ app.get('/my-grades',
   }
 );
 
+
+app.get('/admin/unapproved-users',
+  authenticateUser,
+  authorize(['admin']), // Ensure only admin can access
+  async (req, res) => {
+    try {
+      // Fetch all users where isApproved is false
+      const unapprovedUsers = await User.find({ isApproved: false }).select(
+        'username email role'
+      );
+
+      if (unapprovedUsers.length === 0) {
+        return res.status(200).json({ message: 'No unapproved users found.' });
+      }
+
+      res.status(200).json({
+        message: 'Unapproved users retrieved successfully.',
+        users: unapprovedUsers
+      });
+    } catch (error) {
+      console.error('Error fetching unapproved users:', error);
+      res.status(500).json({ message: 'An error occurred while fetching unapproved users.' });
+    }
+  }
+);
+
+app.patch('/admin/approve-user/:userId',
+  authenticateUser,
+  authorize(['admin']), // Ensure only admin can access
+  async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      // Find the user by ID
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+
+      if (user.isApproved) {
+        return res.status(400).json({ message: 'User is already approved.' });
+      }
+
+      // Update the user's isApproved field to true
+      user.isApproved = true;
+      await user.save();
+
+      res.status(200).json({
+        message: 'User approved successfully.',
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          isApproved: user.isApproved
+        }
+      });
+    } catch (error) {
+      console.error('Error approving user:', error);
+      res.status(500).json({ message: 'An error occurred while approving the user.' });
+    }
+  }
+);
+
+app.get('/admin/add-admin', async (req, res) => {
+  const salt = await bcrypt.genSalt(10);
+  const password1 = 'admin'; // Replace with desired password
+  const hashedPassword = await bcrypt.hash(password1, salt);
+  const role = 'admin'; // Replace with desired role
+  const username = 'admin'; // Replace with desired username
+  const email = 'admin@gmail.com'; // Replace with desired email
+ 
+    // Create user
+    const user = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+      isApproved: true
+    });
+
+    await user.save();
+
+    res.status(201).send({ user});
+
+});
+
 async function deleteAllDocuments() {
   try {
-    await User.deleteMany({});
-    await Course.deleteMany({});
-    await Enrollment.deleteMany({});
+    // await User.deleteMany({});
+    // await Course.deleteMany({});
+    // await Enrollment.deleteMany({});
     await AssignmentSubmission.deleteMany({});
     console.log('All documents in User, Course, and Enrollment collections have been deleted.');
   } catch (error) {
     console.error('Error deleting documents:', error);
   }
 }
-
-// Endpoint to trigger document deletion
 app.delete('/delete-documents', async (req, res) => {
   await deleteAllDocuments();
   res.send('All documents have been deleted from User, Course, and Enrollment collections.');
 });
+
+
+
+
 
 
 // Start Server
