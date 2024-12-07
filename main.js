@@ -797,6 +797,33 @@ app.get('/admin/add-admin', async (req, res) => {
 
 });
 
+
+app.get('/admin/approved-users',
+  authenticateUser,
+  authorize(['admin']), // Ensure only admin can access
+  async (req, res) => {
+    try {
+      // Fetch all users where isApproved is true
+      const unapprovedUsers = await User.find({ isApproved: true }).select(
+        'username email role'
+      );
+
+      if (unapprovedUsers.length === 0) {
+        return res.status(200).json({ message: 'No unapproved users found.' });
+      }
+
+      res.status(200).json({
+        message: 'Unapproved users retrieved successfully.',
+        users: unapprovedUsers
+      });
+    } catch (error) {
+      console.error('Error fetching unapproved users:', error);
+      res.status(500).json({ message: 'An error occurred while fetching unapproved users.' });
+    }
+  }
+);
+
+
 async function deleteAllDocuments() {
   try {
     // await User.deleteMany({});
