@@ -949,6 +949,39 @@ app.get('/courses', authenticateUser, async (req, res) => {
 });
 
 
+app.delete('/admin/courses/:courseId',
+  authenticateUser,
+  authorize(['admin']), // Only admins or instructors can delete courses
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
+
+      // Fetch the course
+      const course = await Course.findById(courseId);
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found.' });
+      }
+
+
+      // Delete all enrollments related to the course
+      await Enrollment.deleteMany({ course: courseId });
+
+      // Delete all assignment submissions related to the course's assignments
+      const courseAssignments = course.assignments.map(assignment => assignment._id);
+      await AssignmentSubmission.deleteMany({ assignment: { $in: courseAssignments } });
+
+      // Finally, delete the course
+      await Course.findByIdAndDelete(courseId);
+
+      res.status(200).json({ message: 'Course and all related data have been deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      res.status(500).json({ message: 'An error occurred while deleting the course.' });
+    }
+  }
+);
+
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
