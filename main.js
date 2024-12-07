@@ -218,29 +218,6 @@ app.post('/courses', authenticateUser, authorize(['instructor']), async (req, re
   }
 });
 
-// Get Courses (for Students)
-app.get('/courses', authenticateUser, async (req, res) => {
-  try {
-    let courses;
-    if (req.user.role === 'student') {
-      // For students, fetch all courses or enrolled courses
-      const enrollments = await Enrollment.find({ 
-        student: req.user._id 
-      }).populate('course');
-      courses = enrollments.map(enrollment => enrollment.course);
-    } else if (req.user.role === 'instructor') {
-      // For instructors, fetch their own courses
-      courses = await Course.find({ instructor: req.user._id });
-    } else {
-      // For admins, fetch all courses
-      courses = await Course.find();
-    }
-
-    res.send(courses);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
 
 // Enroll in Course (for Students)
 app.post('/courses/:courseId/enroll/:studentId', 
@@ -841,8 +818,135 @@ app.delete('/delete-documents', async (req, res) => {
 });
 
 
+app.delete('/admin/users/:userId',
+  authenticateUser,
+  authorize(['admin']), // Only admins can delete users
+  async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      // Fetch the user
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+
+      if (user.role === 'student') {
+        // For students, delete enrollments and submissions
+        await Enrollment.deleteMany({ student: userId });
+        await AssignmentSubmission.deleteMany({ student: userId });
+      } else if (user.role === 'instructor') {
+        // For instructors, delete their courses and related data
+        const instructorCourses = await Course.find({ instructor: userId });
+
+        for (const course of instructorCourses) {
+          const courseId = course._id;
+
+          // Delete enrollments for this course
+          await Enrollment.deleteMany({ course: courseId });
+
+          // Delete assignment submissions for this course's assignments
+          const courseAssignments = course.assignments.map((assignment) => assignment._id);
+          await AssignmentSubmission.deleteMany({ assignment: { $in: courseAssignments } });
+
+          // Delete the course itself
+          await Course.findByIdAndDelete(courseId);
+        }
+      }
+
+      // Finally, delete the user
+      await User.findByIdAndDelete(userId);
+
+      res.status(200).json({ message: 'User and all related data have been deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).json({ message: 'An error occurred while deleting the user.' });
+    }
+  }
+);
 
 
+
+app.put('/admin/courses/:courseId',
+  authenticateUser,
+  authorize(['admin']), // Only admins can edit courses
+  async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      const { title, description } = req.body;
+
+      // Validate input
+      if (!title && !description) {
+        return res
+          .status(400)
+          .json({ message: 'Please provide details to update the course.' });
+      }
+
+      // Find the course
+      const course = await Course.findById(courseId);
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found.' });
+      }
+
+      // Update the course fields if provided
+      if (title) course.title = title;
+      if (description) course.description = description;
+
+      // Save the updated course
+      await course.save();
+
+      res.status(200).json({
+        message: 'Course updated successfully.',
+        course,
+      });
+    } catch (error) {
+      console.error('Error updating course:', error);
+      res.status(500).json({ message: 'An error occurred while updating the course.' });
+    }
+  }
+);
+
+
+
+app.get('/courses', authenticateUser, async (req, res) => {
+  try {
+    let courses;
+
+    if (req.user.role === 'student') {
+      // For students, fetch all courses they are enrolled in
+      const enrollments = await Enrollment.find({ student: req.user._id })
+        .populate({
+          path: 'course',
+          populate: { path: 'instructor', select: 'username _id' } // Populate instructor's name and ID
+        });
+
+      courses = enrollments.map(enrollment => {
+        const course = enrollment.course.toObject();
+        return {
+          ...course,
+          instructor: course.instructor // Ensure instructor info is included
+        };
+      });
+    } else if (req.user.role === 'instructor') {
+      // For instructors, fetch their own courses
+      courses = await Course.find({ instructor: req.user._id }).populate(
+        'instructor',
+        'username _id' // Populate instructor's name and ID
+      );
+    } else {
+      // For admins, fetch all courses
+      courses = await Course.find().populate(
+        'instructor',
+        'username _id' // Populate instructor's name and ID
+      );
+    }
+
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+    res.status(500).json({ message: 'An error occurred while fetching courses.' });
+  }
+});
 
 
 // Start Server
