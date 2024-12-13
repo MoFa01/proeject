@@ -783,6 +783,53 @@ app.get('/instructor/my-courses/students-grades',
   }
 );
 
+app.get('/instructor/submissions',
+  authenticateUser,
+  authorize(['instructor']),
+  async (req, res) => {
+    try {
+      const instructorId = req.user._id;
+
+      // Fetch all courses created by the instructor
+      const courses = await Course.find({ instructor: instructorId });
+
+      if (courses.length === 0) {
+        return res.status(404).json({ message: 'No courses found for this instructor.' });
+      }
+
+      const submissions = [];
+
+      for (const course of courses) {
+        for (const assignment of course.assignments) {
+          // Fetch submissions related to the current assignment
+          const assignmentSubmissions = await AssignmentSubmission.find({
+            assignment: assignment._id
+          }).populate('student', 'username');
+
+          for (const submission of assignmentSubmissions) {
+            submissions.push({
+              course_title: course.title,
+              assignment_Id: assignment._id,
+              assignment_Name: assignment.title,
+              submissionFile: submission.submissionFile,
+              submission_Id: submission._id,
+              student_Name: submission.student.username
+            });
+          }
+        }
+      }
+
+      if (submissions.length === 0) {
+        return res.status(404).json({ message: 'No submissions found for your courses.' });
+      }
+
+      res.status(200).json(submissions);
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+      res.status(500).json({ message: 'An error occurred while fetching submissions.' });
+    }
+  }
+);
 
 
 app.get('/admin/unapproved-users',
