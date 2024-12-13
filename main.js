@@ -736,6 +736,54 @@ app.get('/my-assignments',
   }
 );
 
+app.get('/instructor/my-courses/students-grades',
+  authenticateUser,
+  authorize(['instructor']),
+  async (req, res) => {
+    try {
+      const instructorId = req.user._id;
+
+      // Fetch all courses created by the instructor
+      const courses = await Course.find({ instructor: instructorId });
+
+      const result = [];
+
+      for (const course of courses) {
+        // Fetch enrollments for the current course
+        const enrollments = await Enrollment.find({ course: course._id }).populate('student', 'username');
+
+        if (enrollments.length === 0) {
+          // Skip courses with no enrolled students
+          continue;
+        }
+
+        // Build the response
+        for (const enrollment of enrollments) {
+          for (const assignment of course.assignments) {
+            const grade = enrollment.grades.find(g => g.assignmentId.toString() === assignment._id.toString());
+            result.push({
+              courseName: course.title,
+              studentName: enrollment.student.username,
+              assignmentName: assignment.title,
+              score: grade ? grade.score : 0
+            });
+          }
+        }
+      }
+
+      if (result.length === 0) {
+        return res.status(404).json({ message: 'No grades found for any courses with students.' });
+      }
+
+      res.status(200).json(result);
+    } catch (error) {
+      console.error('Error fetching grades:', error);
+      res.status(500).json({ message: 'An error occurred while fetching grades.' });
+    }
+  }
+);
+
+
 
 app.get('/admin/unapproved-users',
   authenticateUser,
