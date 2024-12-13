@@ -706,6 +706,37 @@ app.get('/my-grades',
 );
 
 
+app.get('/my-assignments',
+  authenticateUser,
+  authorize(['student']),
+  async (req, res) => {
+    try {
+      const studentId = req.user._id; // Replace with actual student ID retrieval logic
+
+      // Fetch all enrollments for the student
+      const enrollments = await Enrollment.find({ student: studentId }).populate('course', 'title assignments');
+
+      // Extract assignments from enrolled courses
+      const assignments = enrollments.flatMap(enrollment => {
+        return enrollment.course.assignments.map(assignment => ({
+          assignmentId: assignment._id,
+          assignmentName: assignment.title
+        }));
+      });
+
+      if (assignments.length === 0) {
+        return res.status(200).json({ message: 'No assignments found for enrolled courses.' });
+      }
+
+      res.status(200).json({ assignments });
+    } catch (error) {
+      console.error('Error fetching assignments:', error);
+      res.status(500).json({ message: 'An error occurred while fetching assignments.' });
+    }
+  }
+);
+
+
 app.get('/admin/unapproved-users',
   authenticateUser,
   authorize(['admin']), // Ensure only admin can access
