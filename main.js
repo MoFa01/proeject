@@ -660,19 +660,38 @@ app.get('/my-grades',
       const enrollments = await Enrollment.find({ student: studentId }).populate('course', 'title');
 
       // Filter and map grades for each course
-      const coursesWithGrades = enrollments
-        .filter(enrollment => enrollment.grades && enrollment.grades.length > 0)
-        .map(enrollment => ({
-          course: {
-            id: enrollment.course._id,
-            title: enrollment.course.title
-          },
-          grades: enrollment.grades.map(grade => ({
-            assignmentId: grade.assignmentId,
-            score: grade.score,
-            feedback: grade.feedback
-          }))
-        }));
+      const coursesWithGrades = await Promise.all(
+        enrollments
+          .filter(enrollment => enrollment.grades && enrollment.grades.length > 0)
+          .map(async enrollment => {
+            // Fetch assignment details for grades
+            const gradesWithAssignmentNames = await Promise.all(
+              enrollment.grades.map(async grade => {
+                const assignment = await Course.findOne(
+                  { 'assignments._id': grade.assignmentId },
+                  { 'assignments.$': 1 } // Get only the matched assignment
+                );
+
+                const assignmentName = assignment?.assignments[0]?.title || 'Unknown Assignment';
+
+                return {
+                  assignmentId: grade.assignmentId,
+                  assignmentName,
+                  score: grade.score,
+                  feedback: grade.feedback
+                };
+              })
+            );
+
+            return {
+              course: {
+                id: enrollment.course._id,
+                title: enrollment.course.title
+              },
+              grades: gradesWithAssignmentNames
+            };
+          })
+      );
 
       if (coursesWithGrades.length === 0) {
         return res.status(200).json({ message: 'No grades found for any courses.' });
