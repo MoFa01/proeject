@@ -759,6 +759,10 @@ app.get('/instructor/my-courses/students-grades',
 
         // Build the response
         for (const enrollment of enrollments) {
+          if (!enrollment.student) {
+            // Skip if the student is null (deleted or not approved)
+            continue;
+          }
           for (const assignment of course.assignments) {
             const grade = enrollment.grades.find(g => g.assignmentId.toString() === assignment._id.toString());
             result.push({
